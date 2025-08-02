@@ -20,7 +20,7 @@ for ip in devices_ip:
         output = ssh.recv(1000).decode('ascii')
         print(output)
 
-        ssh.send("show ip int brief\n")
+        ssh.send("show run\n")
         time.sleep(1)
         output = ssh.recv(2000).decode('ascii')
         print(output)
