@@ -34,7 +34,7 @@ def find_active_interfaces(text):
             real_ip_matches.append((interface, ip, status, protocol))
         else:  # unassigned or other
             unassigned_matches.append((interface, ip, status, protocol))
-    
+
     return all_matches, real_ip_matches, unassigned_matches
 
 # Function to find uptime using regex
