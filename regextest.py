@@ -16,20 +16,24 @@ def regextest(text):
 #    all_matches = re.findall(pattern, text)
 #    return all_matches
 # Step 1: Device connection info
-device1 = {
-    'device_type': 'cisco_ios',
-    'ip': '172.31.144.4',
-    'username': 'admin',
-    'key_file': os.path.expanduser("~/.ssh/id_rsa.pub"),
-    'use_keys': True,
-}
-device2 = {
-    'device_type': 'cisco_ios',
-    'ip': '172.31.144.5',
-    'username': 'admin',
-    'key_file': os.path.expanduser("~/.ssh/id_rsa.pub"),
-    'use_keys': True,
-}
+devices = [
+    {
+#        'name': 'R1',
+        'device_type': 'cisco_ios',
+        'ip': '172.31.144.4',
+        'username': 'admin',
+        'key_file': os.path.expanduser("~/.ssh/id_rsa.pub"),
+        'use_keys': True,
+    },
+    {
+#        'name': 'R2',
+        'device_type': 'cisco_ios',
+        'ip': '172.31.144.5',
+        'username': 'admin',
+        'key_file': os.path.expanduser("~/.ssh/id_rsa.pub"),
+        'use_keys': True,
+    }
+]
 
 
 
@@ -47,20 +51,23 @@ config_commands = template.render()
 print(config_commands)
 
 # Step 5: Connect and configure device
-with ConnectHandler(**device1) as connection:
-    # Go to enable mode
-    connection.enable()
-    
-    # Send all commands at once
-    output = connection.send_config_set(config_commands.strip().split('\n'))
-    
-    # Exit config mode
-    connection.exit_config_mode()
+for d in devices:
 
-print("\nDevice response of R1:")
-for  i in regextest(output):
-    print(f"int {i[0]} ip {i[1]} state {i[2]} {i[3]}")
+    with ConnectHandler(**d) as connection:
+        # Go to enable mode
+        connection.enable()
+        
+        # Send all commands at once
+        output = connection.send_config_set(config_commands.strip().split('\n'))
+        
+        # Exit config mode
+        connection.exit_config_mode()
 
+    print("\nDevice response...:")
+    for  i in regextest(output):
+        print(f"int {i[0]} ip {i[1]} state {i[2]} {i[3]}")
+
+"""
 with ConnectHandler(**device2) as connection:
     # Go to enable mode
     connection.enable()
@@ -74,3 +81,4 @@ with ConnectHandler(**device2) as connection:
 print("\nDevice response of R2:")
 for  i in regextest(output):
     print(f"int {i[0]} ip {i[1]} state {i[2]} {i[3]}")
+"""
