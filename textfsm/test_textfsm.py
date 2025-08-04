@@ -26,7 +26,7 @@ def test_s1_int():
     assert output[0] == "R2.ipa.com is connected to your Gig 0/1"
     assert output[1] == "S0.ipa.com is connected to your Gig 0/0"
 
-test_r1_int()
-test_r2_int()
-test_s1_int()
+#test_r1_int()
+#test_r2_int()
+#test_s1_int()
 
